@@ -1,0 +1,5 @@
+CREATE TABLE tgenero(
+        idgenero     INTEGER IDENTITY(1,1) NOT NULL,
+        nombre         VARCHAR(50) NOT NULL,
+        descripcion      VARCHAR(100) NOT NULL
+        PRIMARY KEY (idgenero));
