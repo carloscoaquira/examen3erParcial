@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApiNetCoreVideoClub.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/genero")]
     [ApiController]
     public class GeneroController : ControllerBase
     {
@@ -18,7 +20,7 @@ namespace WebApiNetCoreVideoClub.Controllers
             respuestaGeneroGetEstandar objRespuesta = new respuestaGeneroGetEstandar();
             objRespuesta.codigo = 1;
             objRespuesta.mensaje = "ERROR";
-            
+
             List<respuestaGeneroGet> lista = new List<respuestaGeneroGet>();
 
             try
@@ -44,14 +46,14 @@ namespace WebApiNetCoreVideoClub.Controllers
             {
                 objRespuesta.mensaje = ex.Message;
             }
-            
+
             return objRespuesta;
         }
 
         // GET api/<GeneroController>/5
-        [HttpGet]
-        [Route("busquedaPorId")]
-        public respuestaGeneroGetRegistro buscarPorId(int id)
+        [HttpGet("{id}")]
+        //[Route("busquedaPorId")]
+        public  async Task< respuestaGeneroGetRegistro> buscarPorId(int id)
         {
             respuestaGeneroGetRegistro objRespuesta = new respuestaGeneroGetRegistro();
             objRespuesta.codigo = 1;
@@ -61,13 +63,19 @@ namespace WebApiNetCoreVideoClub.Controllers
             {
                 clsGenero objGenero = new clsGenero();
                 objGenero.idgenero = id;
-                if (objGenero.BuscarPorId())
+                if ( await objGenero.BuscarPorId())
                 {
                     objRespuesta.codigo = 0;
                     objRespuesta.mensaje = "TRANSACCION CORRECTA";
                     objRespuesta.data.codigo = objGenero.idgenero;
                     objRespuesta.data.nombre = objGenero.nombre;
                     objRespuesta.data.descripcion = objGenero.descripcion;
+
+                }
+                else
+                {
+                    //return NotFound();
+                    //return BadRequest();
 
                 }
 
@@ -99,6 +107,11 @@ namespace WebApiNetCoreVideoClub.Controllers
 
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return objRespuesta;
+                }
+
                 clsGenero objGenero = new clsGenero();
                 objGenero.nombre = objParametros.nombre;
                 objGenero.descripcion = objParametros.descripcion;

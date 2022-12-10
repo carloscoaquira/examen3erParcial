@@ -8,7 +8,7 @@ namespace WebApiNetCoreVideoClub
         String CadenaConexion = @"Data Source=DESKTOP-6V1PQJN\SQL2019V2;Initial Catalog=bdvideoclub;User ID=sa;Password=Axon2021";
 
         public SqlConnection conexion { get; set;}
-        public clsDatos()
+        public clsDatos(String cadena)
         {
             this.conexion = new SqlConnection(this.CadenaConexion);
             this.conexion.Open();

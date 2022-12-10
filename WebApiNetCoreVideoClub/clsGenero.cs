@@ -8,7 +8,7 @@ namespace WebApiNetCoreVideoClub
         public String nombre { get; set; }
         public String descripcion { get; set;}
 
-        clsDatos con = new clsDatos();
+        clsDatos con = new clsDatos("micadena");
         public clsGenero()
         { 
         
@@ -55,7 +55,7 @@ namespace WebApiNetCoreVideoClub
             }
         }
 
-        public bool BuscarPorId()
+        public async Task<bool> BuscarPorId()
         {
             string sql = "select * from tgenero where idgenero=" + this.idgenero;
             try
